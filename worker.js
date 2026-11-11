@@ -16,7 +16,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const origin = request.headers.get("Origin") || "";
-    const headers = cors(origin, env.SITE_URL || "");
+    const headers = cors(origin, env.SITE_ORIGIN || "");
     if (request.method === "OPTIONS") return new Response(null, {status:204, headers});
     if (url.pathname === "/health" && request.method === "GET") {
       return json({ok:true, service:"pharma-shop-checkout", configured:!!env.MP_ACCESS_TOKEN}, 200, headers);
@@ -24,10 +24,10 @@ export default {
     if (url.pathname !== "/api/create-preference" || request.method !== "POST") {
       return json({error:"Rota não encontrada"},404,headers);
     }
-    if (!env.MP_ACCESS_TOKEN || !env.SITE_URL || !env.PRODUCT_CATALOG_JSON) {
+    if (!env.MP_ACCESS_TOKEN || !env.SITE_ORIGIN || !env.SITE_BASE_URL || !env.PRODUCT_CATALOG_JSON) {
       return json({error:"Checkout ainda não configurado no servidor."},503,headers);
     }
-    if (origin !== env.SITE_URL) return json({error:"Origem não autorizada"},403,headers);
+    if (origin !== env.SITE_ORIGIN) return json({error:"Origem não autorizada"},403,headers);
     let body;
     try { body = await request.json(); } catch { return json({error:"JSON inválido"},400,headers); }
     if (!Array.isArray(body.items) || body.items.length < 1 || body.items.length > 20) {
@@ -60,9 +60,9 @@ export default {
       external_reference: reference,
       statement_descriptor:"PHARMA SHOP",
       back_urls: {
-        success: env.SITE_URL + "/?pagamento=sucesso",
-        pending: env.SITE_URL + "/?pagamento=pendente",
-        failure: env.SITE_URL + "/?pagamento=falhou"
+        success: env.SITE_BASE_URL + "/?pagamento=sucesso",
+        pending: env.SITE_BASE_URL + "/?pagamento=pendente",
+        failure: env.SITE_BASE_URL + "/?pagamento=falhou"
       },
       auto_return:"approved",
       notification_url: env.WEBHOOK_URL || undefined
