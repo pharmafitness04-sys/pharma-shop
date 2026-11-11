@@ -3,7 +3,8 @@ main = "worker.js"
 compatibility_date = "2026-11-11"
 
 [vars]
-SITE_URL = "https://pharmafitness04-sys.github.io"
+SITE_ORIGIN = "https://pharmafitness04-sys.github.io"
+SITE_BASE_URL = "https://pharmafitness04-sys.github.io/pharma-shop"
 # Defina PRODUCT_CATALOG_JSON como variável no painel da Cloudflare.
 # Defina MP_ACCESS_TOKEN como secret, nunca como variável pública.
 # Defina WEBHOOK_URL somente depois de configurar um endpoint webhook validado.
