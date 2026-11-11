@@ -1,6 +1,6 @@
 /**
  * PHARMA SHOP — Cloudflare Worker para Mercado Pago Checkout Pro.
- * Configure MP_ACCESS_TOKEN, SITE_URL e PRODUCT_CATALOG_JSON como secrets/vars.
+ * Configure SITE_ORIGIN, SITE_BASE_URL e PRODUCT_CATALOG_JSON como vars; MP_ACCESS_TOKEN como Secret.
  * Nunca coloque credenciais no HTML ou no Git.
  */
 const cors = (origin, allowed) => ({
